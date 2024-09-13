@@ -36,7 +36,7 @@ const createCustomer = async (customer: CreateCustomer) => {
   try {
     const keys = Object.keys(customer);
     const values = Object.values(customer);
-    const response = await database.query<Customer>(
+    const response = await database.query<Customer[]>(
       `INSERT INTO ${TABLE} (${keys.toString()}) VALUES (${values.map(
         (val) => `'${val}'`
       )}) RETURNING *`
