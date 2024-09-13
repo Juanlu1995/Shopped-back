@@ -17,7 +17,7 @@ customerRouter.post("/", async (req: Request<{}, {}, CreateCustomer>, res) => {
   const result = await customer.createCustomer(req.body);
 
   if (result) {
-    return res.status(201).json(result);
+    return res.status(201).json(result[0]);
   }
   return res.status(500).send();
 });

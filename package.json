@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm dev:db && nodemon index.ts",
+    "dev": "nodemon index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:db": "docker compose -f .docker/compose-dev.yml up -d"
   },
