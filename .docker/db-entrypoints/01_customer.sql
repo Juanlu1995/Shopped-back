@@ -1,7 +1,3 @@
--- Adminer 4.8.1 PostgreSQL 16.4 (Debian 16.4-1.pgdg120+1) dump
-
-\connect "shopped";
-
 CREATE SEQUENCE customer_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
 CREATE TABLE "public"."customer" (
@@ -14,10 +10,8 @@ CREATE TABLE "public"."customer" (
 ) WITH (oids = false);
 
 
-DELIMITER ;;
+CREATE RULE "_soft_deletion_customer" AS ON DELETE TO "customer" DO INSTEAD (
+  UPDATE customer SET deleted_at = NOW() WHERE id = old.id AND deleted_at IS NULL
+);
 
-CREATE TRIGGER "set_timestamp" BEFORE UPDATE ON "public"."customer" FOR EACH ROW EXECUTE FUNCTION trigger_set_timestamp();;
-
-DELIMITER ;
-
--- 2024-09-01 18:25:55.756468+00
+CREATE TRIGGER on_update_customer BEFORE UPDATE ON customer FOR EACH ROW EXECUTE PROCEDURE update_modified_column();

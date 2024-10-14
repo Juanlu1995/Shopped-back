@@ -9,7 +9,7 @@ import {
   ServerToClientEvents,
   InterServerEvents,
 } from "./types";
-import { findCustomers } from "./controllers/customer/customer";
+import { findCustomers } from "./controllers/customer";
 
 dotenv.config();
 
