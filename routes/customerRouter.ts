@@ -1,7 +1,7 @@
 import {Request, Router} from "express";
 
 import {CreateCustomer} from "../controllers/customer/types";
-import customer from "../controllers/customer/customer";
+import customer from "../controllers/customer";
 
 const customerRouter = Router();
 
