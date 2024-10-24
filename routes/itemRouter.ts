@@ -2,7 +2,11 @@ import { Request, Router } from "express";
 import controller from "../controllers/item";
 
 const itemRouter = Router();
-
+/**
+ *
+ *
+ *
+ */
 itemRouter.get(
   "/:id",
   async (req: Request<{ id: string }>, res) => {
