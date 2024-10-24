@@ -1,12 +1,9 @@
 import { Request, Router } from "express";
-import controller from "../controllers/item";
+import ItemController from "../controllers/item";
 
 const itemRouter = Router();
-/**
- *
- *
- *
- */
+const controller = new ItemController();
+
 itemRouter.get(
   "/:id",
   async (req: Request<{ id: string }>, res) => {
@@ -64,7 +61,7 @@ itemRouter.delete(
     if (!req.params.id) return res.status(400).send();
     if (Number.isNaN(req.params.id)) return res.status(500).send();
 
-    const result = await controller.removeItem(Number(req.params.id));
+    const result = await controller.deleteItem(Number(req.params.id));
 
     if (result) return res.status(204).send();
 

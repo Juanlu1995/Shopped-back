@@ -1,0 +1,428 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Pick_Item.Exclude_keyofItem.created_at-or-updated_at-or-deleted_at-or-id__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"measure_unit": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Item.created_at-or-updated_at-or-deleted_at-or-id_": {
+				"$ref": "#/components/schemas/Pick_Item.Exclude_keyofItem.created_at-or-updated_at-or-deleted_at-or-id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"CreateItem": {
+				"$ref": "#/components/schemas/Omit_Item.created_at-or-updated_at-or-deleted_at-or-id_"
+			},
+			"Customer": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string"
+					},
+					"deleted_at": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"created_at",
+					"updated_at",
+					"deleted_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Customer.name_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"CreateCustomer": {
+				"$ref": "#/components/schemas/Pick_Customer.name_"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "shopped-back",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/item/{id}": {
+			"get": {
+				"operationId": "GetItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": ""
+					},
+					"404": {
+						"description": ""
+					},
+					"500": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteItem",
+				"responses": {
+					"204": {
+						"description": "Item deleted successfully.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": ""
+					},
+					"500": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/item": {
+			"get": {
+				"operationId": "GetItems",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {},
+									"type": "array"
+								},
+								"examples": {
+									"Example 1": {
+										"value": [
+											{
+												"id": 1,
+												"name": "Item name",
+												"created_at": "2024-10-24T20:55:30.109Z",
+												"updated_at": "2024-10-24T20:55:30.109Z",
+												"deleted_at": "",
+												"measure_unit": "kg",
+												"price": 100
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateItem",
+				"responses": {
+					"201": {
+						"description": "Item created successfully.",
+						"content": {
+							"application/json": {
+								"schema": {},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": ""
+					},
+					"500": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateItem"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/item/name/{name}": {
+			"get": {
+				"operationId": "GetItemByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": ""
+					},
+					"404": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/customer": {
+			"get": {
+				"operationId": "GetCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Customer"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCustomer",
+				"responses": {
+					"201": {
+						"description": "Customer created",
+						"content": {
+							"application/json": {
+								"schema": {},
+								"examples": {
+									"New customer": {
+										"value": {
+											"id": 1,
+											"name": "New Customer",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": ""
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCustomer"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/customer/name/{name}": {
+			"get": {
+				"operationId": "FindCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

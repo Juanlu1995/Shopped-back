@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use(router);
+app.use(express.static('public'));
 
 
 server.listen(port, () => {
