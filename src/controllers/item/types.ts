@@ -1,3 +1,6 @@
+/**
+ * Item interface
+ */
 export interface Item {
   id: number;
   name: string;
@@ -8,17 +11,23 @@ export interface Item {
   deleted_at?: string;
 }
 
-export type CreateItem = Omit<
+/**
+ * Interface to create an item.
+ * Only have the values need to create a new item
+ */
+export interface CreateItem extends Omit<
   Item,
   "created_at" | "updated_at" | "deleted_at" | "id"
->;
+>{}
 
+/**
+ * Interface of returned elements
+ */
 export interface DBItem
   extends Omit<
     Item,
-    "deleted_at" | "price" | "measure_unit"
+     "price" | "measure_unit"
   > {
   price: null | number;
   measure_unit: null | string;
-  deleted_at?: null;
 }

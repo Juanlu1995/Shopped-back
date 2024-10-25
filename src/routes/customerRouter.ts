@@ -14,7 +14,12 @@ customerRouter.get("/", async (_, res) => {
 });
 
 customerRouter.get('/name/:name', async (req: Request<{ name: string }>, res) => {
+    if (!req.params.name) return res.status(400).send();
 
+    const customers = await customer.findCustomers(req.params.name);
+
+    if (!customers.length) return res.status(404).send();
+    res.json(customers);
 })
 
 customerRouter.post("/", async (req: Request<{}, {}, CreateCustomer>, res) => {
@@ -24,7 +29,7 @@ customerRouter.post("/", async (req: Request<{}, {}, CreateCustomer>, res) => {
     const result = await customer.createCustomer(req.body);
 
     if (result) {
-        return res.status(201).json(result[0]);
+        return res.status(201).json(result);
     }
     return res.status(500).send();
 });

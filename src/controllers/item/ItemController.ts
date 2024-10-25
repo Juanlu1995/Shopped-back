@@ -3,9 +3,10 @@ import {CreateItem, DBItem, Item} from "./types";
 
 const TABLE = "item";
 
-export const getItem = async (id: number) => {
+export const getItem = async (id: number, withDeleted = false) => {
     try {
-        const query = `SELECT * FROM ${TABLE} WHERE id=${id} AND deleted_at IS NULL LIMIT 1`;
+        const withDeletedText = !withDeleted ? 'AND deleted_at IS NULL' : ''
+        const query = `SELECT * FROM ${TABLE} WHERE id=${id} ${withDeletedText} LIMIT 1`;
         console.log(query);
         const response = await database.query<DBItem[]>(query);
         if (!Array.isArray(response) || response.length === 0)
@@ -17,14 +18,16 @@ export const getItem = async (id: number) => {
     }
 };
 
-export const getItemByName = async (name: string) => {
+export const getItemsByName = async (name: string, withDeleted = false) => {
     try {
+        const withDeletedText = !withDeleted ? 'AND deleted_at IS NULL' : ''
+
         const response = await database.query<DBItem[]>(
-            `SELECT * FROM ${TABLE} WHERE name='${name}' AND deleted_AT IS NULL`
+            `SELECT * FROM ${TABLE} WHERE LOWER(name) LIKE LOWER('%${name}%') ${withDeletedText}`
         );
         if (!Array.isArray(response) || response.length === 0)
             throw new Error(`Non item found with name: ${name}`);
-        return response[0];
+        return response;
     } catch (e) {
         console.error(e);
         return null;
@@ -47,12 +50,12 @@ export const createItem = async (item: CreateItem) => {
     try {
         const keys = Object.keys(item);
         const values = Object.values(item);
-        const response = await database.query<DBItem[]>(
+        const items= await database.query<DBItem[]>(
             `INSERT INTO ${TABLE} (${keys.toString()}) VALUES (${values.map(
                 (val) => `'${val}'`
             )}) RETURNING *`
         );
-        return response;
+        return items[0];
     } catch (e) {
         console.error(e);
         return null;
