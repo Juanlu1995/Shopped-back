@@ -1,9 +1,11 @@
 import {Request, Router} from "express";
 
 import {CreateCustomer} from "../controllers/customer/types";
-import customer from "../controllers/customer";
+import CustomerController from "../controllers/customer";
 
 const customerRouter = Router();
+const customer = new CustomerController();
+
 
 customerRouter.get("/", async (_, res) => {
     const customers = await customer.getCustomers();
@@ -27,7 +29,7 @@ customerRouter.post("/", async (req: Request<{}, {}, CreateCustomer>, res) => {
     const result = await customer.createCustomer(req.body);
 
     if (result) {
-        return res.status(201).json(result[0]);
+        return res.status(201).json(result);
     }
     return res.status(500).send();
 });

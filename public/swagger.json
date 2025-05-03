@@ -1,0 +1,576 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Pick_Item.Exclude_keyofItem.price-or-measure_unit__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string"
+					},
+					"deleted_at": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"created_at",
+					"updated_at"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"DBItem": {
+				"description": "Interface of returned elements",
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string"
+					},
+					"deleted_at": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"measure_unit": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"created_at",
+					"updated_at",
+					"price",
+					"measure_unit"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Item.Exclude_keyofItem.created_at-or-updated_at-or-deleted_at-or-id__": {
+				"properties": {
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"measure_unit": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"CreateItem": {
+				"description": "Interface to create an item.\nOnly have the values need to create a new item",
+				"properties": {
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"measure_unit": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Customer": {
+				"description": "Customer interface",
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string"
+					},
+					"deleted_at": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"created_at",
+					"updated_at",
+					"deleted_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCustomer": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "Interface of values to create a customer"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "shopped-back",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/item": {
+			"get": {
+				"operationId": "GetItems",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/DBItem"
+									},
+									"type": "array",
+									"nullable": true
+								},
+								"examples": {
+									"Example 1": {
+										"value": [
+											{
+												"id": 1,
+												"name": "Item name",
+												"created_at": "2024-10-24T20:55:30.109Z",
+												"updated_at": "2024-10-24T20:55:30.109Z",
+												"deleted_at": "",
+												"measure_unit": "kg",
+												"price": 100
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Returned when non items are found"
+					}
+				},
+				"description": "Get all items",
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateItem",
+				"responses": {
+					"201": {
+						"description": "Item created successfully.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/DBItem"
+										}
+									],
+									"nullable": true
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Returned when name is not passed by path"
+					},
+					"500": {
+						"description": "Returned when any unknown error"
+					}
+				},
+				"description": "Create a new item",
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Item to create",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateItem",
+								"description": "Item to create"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/item/{id}": {
+			"get": {
+				"operationId": "GetItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/DBItem"
+										}
+									],
+									"nullable": true
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Returned when id is not passed by path"
+					},
+					"404": {
+						"description": "Returned when non item is found"
+					},
+					"500": {
+						"description": "Any other unexpected error"
+					}
+				},
+				"description": "Get item by id",
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "id for which the item is to be searched",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Query boolean param if include in search deleted items. Default false if not included.",
+						"in": "query",
+						"name": "withDeleted",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteItem",
+				"responses": {
+					"204": {
+						"description": "Item deleted successfully.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Returned when id is not passed by path"
+					},
+					"500": {
+						"description": "Returned when any unknown error"
+					}
+				},
+				"description": "Delete an item that is not deleted.\nDoes a soft reboot setting deleted_at to the current date.",
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "id of the item to be deleted",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/item/name/{name}": {
+			"get": {
+				"operationId": "GetItemsByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/DBItem"
+									},
+									"type": "array",
+									"nullable": true
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": 1,
+											"name": "Item name",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": "",
+											"measure_unit": "kg",
+											"price": 100
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Returned when id is not passed by path"
+					},
+					"404": {
+						"description": "Returned when non item is found"
+					}
+				},
+				"description": "Get all the items that match the name",
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Name of the items for which the items have to be searched",
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Query boolean param if include in search deleted items. Default false if not included.",
+						"in": "query",
+						"name": "withDeleted",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				]
+			}
+		},
+		"/customer": {
+			"get": {
+				"operationId": "GetCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Customer"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all customers.",
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCustomer",
+				"responses": {
+					"201": {
+						"description": "Customer created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Customer"
+										}
+									],
+									"nullable": true
+								},
+								"examples": {
+									"New customer": {
+										"value": {
+											"id": 1,
+											"name": "New Customer",
+											"created_at": "2024-10-24T20:55:30.109Z",
+											"updated_at": "2024-10-24T20:55:30.109Z",
+											"deleted_at": ""
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "Create a customer",
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Customer data to be created",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCustomer",
+								"description": "Customer data to be created"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/customer/name/{name}": {
+			"get": {
+				"operationId": "FindCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Customer"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all customers that match name",
+				"tags": [
+					"Customer"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Name of the customer to search",
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

@@ -3,6 +3,7 @@ import express from "express";
 import cors, { CorsOptions } from "cors";
 import { createServer } from "node:http";
 import router from "./routes";
+import {port} from "./constants";
 
 dotenv.config();
 
@@ -21,9 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use(router);
+app.use(express.static('public'));
 
 
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
